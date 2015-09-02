@@ -1,9 +1,15 @@
 function erlang_tarball() {
-  echo "OTP-${erlang_version}.tar.gz"
+  if [ -z $erlang_tarball ]; then
+      echo "OTP-${erlang_version}.tar.gz"
+  else
+    echo "${erlang_tarball}"
+  fi
 }
 
 function download_erlang() {
-  erlang_package_url="https://s3.amazonaws.com/s3.hex.pm/builds/erlang/cedar-14"
+  if [ -z $erlang_package_url ]; then
+    erlang_package_url="https://s3.amazonaws.com/s3.hex.pm/builds/erlang/cedar-14"
+  fi
   erlang_package_url="${erlang_package_url}/$(erlang_tarball)"
 
   # If a previous download does not exist, then always re-download
@@ -29,7 +35,7 @@ function install_erlang() {
 
   rm -rf $(erlang_build_path)
   mkdir -p $(erlang_build_path)
-  tar zxf ${cache_path}/$(erlang_tarball) -C $(erlang_build_path) --strip-components=1
+  tar zxf ${cache_path}/$(erlang_tarball) -C $(erlang_build_path) --strip-components=${erlang_strip_components:-1}
 
   rm -rf /app/.platform_tools/erlang
   mkdir -p /app/.platform_tools

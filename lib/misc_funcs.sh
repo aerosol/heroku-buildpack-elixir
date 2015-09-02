@@ -41,6 +41,12 @@ function load_config() {
   output_line "* Stack ${STACK}"
   output_line "* Erlang ${erlang_version}"
   output_line "* Elixir ${elixir_version[0]} ${elixir_version[1]}"
+  if [ ! -z $erlang_package_url ]; then
+      output_line "* WARNING: Using custom Erlang package URL: ${erlang_package_url}"
+  fi
+  if [ ! -z $erlang_tarball ]; then
+      output_line "* WARNING: Using custom Erlang tarball: ${erlang_tarball}"
+  fi
   output_line "Will export the following config vars:"
   output_line "* Config vars ${config_vars_to_export[*]}"
 }
